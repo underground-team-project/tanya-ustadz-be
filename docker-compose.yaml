@@ -1,0 +1,18 @@
+services:
+  tanyaustadz:
+    build: .
+    container_name: tanyaustadz
+    ports:
+        - "8080:8080"
+    depends_on:
+        - "postgres"
+    env_file:
+      - .env
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: always
+    env_file:
+      - .env.postgres
+    ports:
+      - "5432:5432"

@@ -1,0 +1,67 @@
+definitions:
+  request.LoginUser:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  request.RegisterUser:
+    properties:
+      company_address:
+        type: string
+      company_name:
+        type: string
+      email:
+        type: string
+      information:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      phone_number:
+        type: string
+      position:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /apis/v1/user/login:
+    post:
+      consumes:
+        - application/json
+      description: API for login
+      parameters:
+        - description: Request Payload
+          in: body
+          name: Payload
+          required: true
+          schema:
+            $ref: "#/definitions/request.LoginUser"
+      produces:
+        - application/json
+      responses: {}
+      summary: Login
+      tags:
+        - User
+  /apis/v1/user/register:
+    post:
+      consumes:
+        - application/json
+      description: API for register
+      parameters:
+        - description: Request Payload
+          in: body
+          name: Payload
+          required: true
+          schema:
+            $ref: "#/definitions/request.RegisterUser"
+      produces:
+        - application/json
+      responses: {}
+      summary: Register
+      tags:
+        - User
+swagger: "2.0"
