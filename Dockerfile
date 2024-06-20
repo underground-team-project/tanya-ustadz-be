@@ -1,21 +1,20 @@
-FROM golang:alpine AS builder
+ARG GOLANG=golang:alpine
 
-RUN apk update && apk add --no-cache git
+FROM ${GOLANG} AS base
 
-WORKDIR /home/tanyaustadz
+FROM ${GOLANG} AS builder
 
-COPY go.mod go.sum ./
+WORKDIR /src
+COPY ./ ./
 
-RUN go mod tidy
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target=/root/.cache/go-build \
+    CGO_ENABLED=0 GOOS=linux go build -o tanyaustadz ./ 
 
-COPY . .
+FROM alpine AS alpine
 
-RUN go build -o /home/tanyaustadz/bin/app
+FROM scratch 
 
-FROM alpine:latest
+COPY --from=builder /src/tanyaustadz /usr/local/bin/tanyaustadz
 
-WORKDIR /home/tanyaustadz
-
-COPY --from=builder /home/tanyaustadz/bin/app /home/tanyaustadz/bin/
-
-ENTRYPOINT ["/home/tanyaustadz/bin/app"]
+ENTRYPOINT ["/usr/local/bin/tanyaustadz"]

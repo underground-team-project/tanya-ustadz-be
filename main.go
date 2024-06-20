@@ -60,6 +60,9 @@ func main() {
 }
 
 func initHandler(router *mux.Router) {
+	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("tanyaustadz"))
+	})
 	user_handler.UserHandler(router, jwtService, userRepo)
 	docs_handler.DocsHandler(router)
 	static_handler.StaticHandler(router)

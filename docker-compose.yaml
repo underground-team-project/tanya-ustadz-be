@@ -1,11 +1,13 @@
 services:
   tanyaustadz:
     build: .
+    restart: unless-stopped
     container_name: tanyaustadz
     ports:
-        - "8080:8080"
+      - 8080:8080
     depends_on:
-        - "postgres"
+      postgres:
+        condition: service_started
     env_file:
       - .env
   postgres:
@@ -15,4 +17,4 @@ services:
     env_file:
       - .env.postgres
     ports:
-      - "5432:5432"
+      - 5432:5432
